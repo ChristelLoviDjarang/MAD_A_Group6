@@ -1,50 +1,42 @@
-import React from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Register, UserList} from './screens';
+import React, {useState, useEffect} from 'react';
+import RegisterPage from './Register';
+import UserListPage from './UserList';
+import {UserData} from './type'; // Importing UserData from the types file
 
-const Stack = createNativeStackNavigator();
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Registration" component={Register} />
-        <Stack.Screen name="UserList" component={UserList} />
-      </Stack.Navigator>
-    </NavigationContainer>
+const App: React.FC = () => {
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [showRegistration, setShowRegistration] = useState<boolean>(true); // State to toggle between registration and user list
+
+  useEffect(() => {
+    // Load data from JSON file
+    fetchUserData(); // Call the function to fetch user data
+  }, []);
+
+  // Function to fetch user data
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('data.json'); // Assuming data.json is your JSON file
+      const jsonData = await response.json();
+      setUsers(jsonData); // Set the fetched user data to the state
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const handleRegistration = (userData: UserData) => {
+    setUsers([...users, userData]);
+    setShowRegistration(false); // Hide registration page after registration
+  };
+
+  return showRegistration ? (
+    <RegisterPage onSubmit={handleRegistration} />
+  ) : (
+    <UserListPage
+      users={users}
+      setUsers={setUsers}
+      setShowRegistration={setShowRegistration}
+    /> // Pass setShowRegistration to UserListPage
   );
-}
+};
 
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-    borderColor: 'black',
-    borderWidth: 1,
-  },
-  utama: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: '900',
-    marginBottom: 10,
-    color: 'black',
-  },
-  userContainer: {
-    marginBottom: 10,
-    padding: 10,
-    borderColor: 'lightgrey',
-    borderWidth: 1,
-  },
-  boldText: {
-    fontWeight: 'bold',
-  },
-  normalText: {
-    fontWeight: 'normal',
-  },
-});
+export default App;
