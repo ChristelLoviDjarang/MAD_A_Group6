@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, StyleSheet, Button} from 'react-native';
-import {UserData} from './type'; // Importing UserData from the types file
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
+import { UserData } from './type'; // Importing UserData from the types file
 import jsonData from './data.json'; // Importing JSON data file
 import RegisterPage from './Register'; // Importing the RegisterPage component
 
@@ -8,7 +8,7 @@ const UserListPage: React.FC<{
   users: UserData[];
   setUsers: React.Dispatch<React.SetStateAction<UserData[]>>;
   setShowRegistration: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({users, setUsers, setShowRegistration}) => {
+}> = ({ users, setUsers, setShowRegistration }) => {
   useEffect(() => {
     // Load data from JSON file
     setUsers(jsonData);
@@ -17,7 +17,7 @@ const UserListPage: React.FC<{
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.heading}>User List</Text>
+        <Text style={[styles.heading, { color: 'black' }]}>User List</Text>
         <Button
           title="Back to Registration"
           onPress={() => setShowRegistration(true)}
@@ -26,16 +26,16 @@ const UserListPage: React.FC<{
       </View>
       <FlatList
         data={users}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View style={styles.userContainer}>
-            <Text>Name: {item.name}</Text>
-            <Text>Username: {item.username}</Text>
-            <Text>Email: {item.email}</Text>
-            <Text>
+            <Text style={styles.text}>Name: {item.name}</Text>
+            <Text style={styles.text}>Username: {item.username}</Text>
+            <Text style={styles.text}>Email: {item.email}</Text>
+            <Text style={styles.text}>
               Address: {item.address.street}, {item.address.city},{' '}
               {item.address.zipcode}
             </Text>
-            <Text>Phone Number: {item.phone}</Text>
+            <Text style={styles.text}>Phone Number: {item.phone}</Text>
           </View>
         )}
         keyExtractor={item => item.id.toString()}
@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+  },
+  text: {
+    color: '#000000', // black color
   },
 });
 
