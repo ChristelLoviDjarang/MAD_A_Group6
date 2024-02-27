@@ -21,6 +21,7 @@ const UserListPage: React.FC<{
         <Button
           title="Back to Registration"
           onPress={() => setShowRegistration(true)}
+          color="purple"
         />
       </View>
       <FlatList

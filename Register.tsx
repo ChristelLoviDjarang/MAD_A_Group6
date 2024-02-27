@@ -99,7 +99,7 @@ const RegisterPage: React.FC<{onSubmit: (userData: UserData) => void}> = ({
         value={userData.phone}
         onChangeText={handleChangePhone}
       />
-      <Button title="Register" onPress={handleSubmit} />
+      <Button title="Register" onPress={handleSubmit} color="#800088" />
     </View>
   );
 };
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'black',
   },
   input: {
     width: '100%',
